@@ -18,6 +18,7 @@ jobs:
         with:
           node-version: '20.x'
           cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
 
       # 3. Installer les dépendances & builder dans frontend/
       - name: Install & Build
