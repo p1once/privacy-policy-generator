@@ -1,5 +1,10 @@
 name: Build & Deploy to GitHub Pages
 
+# 0. Permissions requises pour que GITHUB_TOKEN puisse git push et déployer
+permissions:
+  contents: write   # permet de push le commit du build
+  pages: write      # permet de publier sur GitHub Pages
+
 on:
   push:
     branches: [ main ]
@@ -7,10 +12,13 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # 1. Récupérer le code
+      # 1. Récupérer le code et préserver le token pour la suite
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true
 
       # 2. Installer Node.js ≥ 20.19 et activer le cache npm
       - name: Setup Node.js ≥ 20
