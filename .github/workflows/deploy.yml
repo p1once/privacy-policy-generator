@@ -8,20 +8,25 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      # 1. Récupérer le code
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      # 2. Installer Node.js ≥ 20.19 et activer le cache npm
+      - name: Setup Node.js ≥ 20
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20.x'
+          cache: 'npm'
 
+      # 3. Installer les dépendances & builder dans frontend/
       - name: Install & Build
+        working-directory: frontend
         run: |
-          cd frontend
-          npm install
+          npm ci
           npm run build
 
+      # 4. Publier le résultat sur GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
